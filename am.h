@@ -25,7 +25,7 @@ typedef struct {
 }ii;
 
 size_t am_strlen(const char *str);
-void am_print(const char *str);
+void am_printf(const char *str);
 Array am_read_npy(const char *filename);
 int am_isdigit(unsigned char str);
 int am_isspace(unsigned char str);

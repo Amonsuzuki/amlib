@@ -9,7 +9,7 @@ int read_header(int fd) {
 
 	am_read(fd, magic, 6);
 	if (magic[0] != '\x93' || magic[1] != 'N' || magic[2] != 'U' || magic[3] != 'M' || magic[4] != 'P' || magic[5] != 'Y') {
-		am_print("Not a valid .npy format\n");
+		am_printf("Not a valid .npy format\n");
 		close(fd);
 		exit(1);
 		return (-1);
@@ -28,7 +28,7 @@ void get_shape(char *header, size_t **shape, size_t *ndim) {
 	const char *shape_start = am_strstr(header, "'shape': (");
 
 	if (!shape_start) {
-		am_print("Error: 'shape' not found\n");
+		am_printf("Error: 'shape' not found\n");
 		return;
 	}
 	shape_start += 10;
@@ -39,7 +39,7 @@ void get_shape(char *header, size_t **shape, size_t *ndim) {
 	}
 	*shape = (size_t *)malloc(*ndim * sizeof(size_t));
 	if (!*shape) {
-		am_print("Memory allocation failed\n");
+		am_printf("Memory allocation failed\n");
 		exit(1);
 	}
 	for (size_t i = 0; i < *ndim; i++) {
@@ -55,18 +55,18 @@ char *read_shape(int fd, size_t **shape, size_t *ndim) {
 	am_read(fd, &header_len, 2);
 	char *header = (char *)malloc(header_len + 1);
 	if (!header) {
-		am_print("Memory allocation failed\n");
+		am_printf("Memory allocation failed\n");
 		exit(1);
 	}
 	am_read(fd, header, header_len);
 	header[header_len] = '\0';
 	get_shape(header, shape, ndim);
 	/*
-	am_print("Shape: ");
+	am_printf("Shape: ");
 	for (size_t i = 0; i < *ndim; i++) {
-		printf("%zu", (*shape)[i]);
+		printff("%zu", (*shape)[i]);
 		if (i < *ndim - 1)
-			printf(", ");
+			printff(", ");
 	}
 	printf("\n");
 	*/
@@ -81,7 +81,7 @@ Array am_read_npy(const char *filename) {
 	size_t total_elements = 1;
 
 	if (fd == -1) {
-		am_print("Error opening file");
+		am_printf("Error opening file");
 		exit(1);
 	}
 	read_header(fd);

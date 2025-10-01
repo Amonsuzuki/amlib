@@ -8,11 +8,11 @@ ssize_t am_read(int fd, void *buf, size_t size) {
 	while (total_read < size) {
 		bytes_read = read(fd, (char *)buf + total_read, size - total_read);
 		if (bytes_read < 0) {
-			am_print("Error: read failed\n");
+			am_printf("Error: read failed\n");
 			return (-1);
 		}
 		if (bytes_read == 0) {
-			am_print("Waring: unexpected EOF\n");
+			am_printf("Waring: unexpected EOF\n");
 			break;
 		}
 		total_read += bytes_read;
